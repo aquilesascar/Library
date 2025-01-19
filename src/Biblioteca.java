@@ -58,7 +58,7 @@ public class Biblioteca {
 
     private void carregarDados() {
         // Carregar dados de obras a partir do arquivo CSV
-        String arquivo= "acervo.cvc";
+        String arquivo= "acervo.csv";
         try (BufferedReader reader =new BufferedReader(new FileReader(arquivo))){
             String linha = reader.readLine();
             while (linha != null) {
