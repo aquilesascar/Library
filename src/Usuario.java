@@ -21,4 +21,6 @@ abstract class Usuario {
         return senha;
     }
 
+    protected abstract void menu(Usuario usuarios);
+
 }
