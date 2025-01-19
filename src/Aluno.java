@@ -25,4 +25,9 @@ public class Aluno extends Usuario{
 
         return false;
     }
+
+    @Override
+    protected void menu(Usuario usuarios) {
+
+    }
 }

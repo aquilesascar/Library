@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Biblioteca {
-    private ArrayList<String> usuarios = new ArrayList();
-    private ArrayList<String> obras = new ArrayList();
-    private ArrayList<String> emprestimos = new ArrayList();
+    private ArrayList<Usuario> usuarios = new ArrayList();
+    private ArrayList<Obra> obras = new ArrayList();
+    private ArrayList<Emprestimo> emprestimos = new ArrayList();
+    private ArrayList<Usuario> usuarioLogado;
 
     public void menuInicial() {
         Scanner sc = new Scanner(System.in);
@@ -27,10 +28,63 @@ public class Biblioteca {
                     break;
 
                 default:
-                    System.out.println("Opção inválida!");
+                    System.err.println("Opção inválida!");
 
             }
         }
+    }
+
+    public void menuUsuario() {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("\nMenu Principal");
+            System.out.println("1. Consultar obras");
+            System.out.println("2. Realizar empréstimo");
+            System.out.println("3. Realizar devolução");
+            System.out.println("4. Logout");
+            int opcao = sc.nextInt();
+            switch (opcao) {
+                case 1:
+                    //consultaObras();
+                    break;
+                case 2:
+                    //emprestimo();
+                    break;
+                case 3:
+                    //devolucao();
+                    break;
+                case 4:
+                    //logout();
+                    break;
+                default:
+                    System.err.println("Opção inválida!");
+
+            }
+        }
+    }
+
+    private void login(Scanner scanner) {
+        System.out.println("Digite seu email: ");
+        String email = scanner.next();
+        System.out.println("Digite sua senha: ");
+        String senha = scanner.next();
+
+        for (int i =0; i < usuarios.size(); i++) {
+
+            Usuario u = usuarios.get(i); //pegue o usuário do ArrayList
+            if (u.getEmail().equals(email) && u.getSenha().equals(senha) ) { //verifique email e senha
+                usuarioLogado = usuarios; //armazene o usuário logado
+                System.out.println("Bem-vindo, " + u.getNome() + "!");
+                //menuUsuario(scanner);
+                return;
+            }
+        }
+        System.out.println("Email ou senha inválidos. Tente novamente.");
+
+    }
+
+    private void menuUsuario(Scanner scanner) {
+
     }
 
     private void carregarDados() {
@@ -53,7 +107,7 @@ public class Biblioteca {
 
                 obras.add(new Obra(id, titulo, quantDisponivel));
             }
-            System.out.println("Dados de obras carregados com sucesso!");
+            System.out.println("Dados das obras carregados com sucesso!");
         } catch (IOException e) {
             System.out.println("Erro ao carregar dados de obras: " + e.getMessage());
         }
