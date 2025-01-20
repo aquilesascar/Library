@@ -1,10 +1,9 @@
 public class Obra {
     private String id;
     private String titulo;
-   // private String autor;
-    private String quantDisponivel;
+    private int quantDisponivel;
 
-    public Obra(String id, String titulo, String quantDisponivel) {
+    public Obra(String id, String titulo, int quantDisponivel) {
         this.id = id;
         this.titulo = titulo;
         this.quantDisponivel = quantDisponivel;
@@ -18,9 +17,19 @@ public class Obra {
         return titulo;
     }
 
-    public String getQuantDisponivel() {
+    public int getQuantDisponivel() {
         return quantDisponivel;
     }
 
+    @Override
+    public String toString() {
+        return "ID ='" + id + '\'' +
+                ", Título ='" + titulo + '\'' +
+                ", Quantidade disponível =" + quantDisponivel;
+    }
 
+
+    public void incrementarQuantidadeDisponivel() {
+        quantDisponivel++;
+    }
 }
