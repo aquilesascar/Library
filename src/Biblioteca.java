@@ -8,6 +8,60 @@ public class Biblioteca {
     private ArrayList<Emprestimo> emprestimos = new ArrayList();
     private ArrayList<Usuario> usuarioLogado;
 
+    public ArrayList<Obra> getObras(int i) {
+        return obras;
+    }
+
+    public Biblioteca() {
+        this.usuarios = new ArrayList();
+        this.obras = new ArrayList();
+        this.emprestimos = new ArrayList();
+        this.usuarioLogado = new ArrayList();
+    }
+    public void printObras(int i) {
+        System.out.println(this.obras.get(i).getId()+" "+ this.obras.get(i).getTitulo());
+    }
+
+    // Método para fazer empréstimo
+    public void emprestimo(String nomeUsuario, ArrayList<Usuario> usuarios) {
+        //percore o array de usuários para encontrar o usuário que deseja fazer o empréstimo
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNome().equals(nomeUsuario)) {
+                if (usuario.verificarLimiteEmprestimo()) {
+                    usuario.decrementarLimiteEmprestimo();
+                    System.out.println("Empréstimo realizado com sucesso para " + nomeUsuario + "!");
+                } else {
+                    System.out.println("Você atingiu o limite de empréstimos, " + nomeUsuario + ".");
+                }
+                return;
+            }
+        }
+        //caso o usuário não seja encontrado no array
+        System.out.println("Usuário " + nomeUsuario + " não encontrado.");
+    }
+
+
+    // Método para devolução
+    public void devolucao(String nomeUsuario, String tituloObra) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNome().equals(nomeUsuario)) {
+                for (Obra obra : obras) {
+                    if (obra.getTitulo().equals(tituloObra)) {
+                        usuario.incrementarLimiteEmprestimo();
+                        obra.incrementarQuantidadeDisponivel();
+
+                        System.out.println("Devolução realizada com sucesso para " + nomeUsuario + "!");
+                        return;
+                    }
+                }
+                System.out.println("Obra não encontrada no sistema: " + tituloObra);
+                return;
+            }
+        }
+        System.out.println("Usuário " + nomeUsuario + " não encontrado.");
+    }
+
+
     public void menuInicial() {
         Scanner sc = new Scanner(System.in);
         while (true) {
@@ -53,7 +107,7 @@ public class Biblioteca {
     }
 
 
-    private void carregarDados() {
+    public void carregarDados() {
         // Carregar dados de obras a partir do arquivo CSV
         String arquivo = "acervo.csv";
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
@@ -71,6 +125,9 @@ public class Biblioteca {
         } catch (IOException erroLeitura) {
             System.out.println("Erro na leitura dos dados");
         }
+    }
+
+    public void cadastraUsuario(){
 
     }
 

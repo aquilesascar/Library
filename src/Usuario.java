@@ -11,6 +11,8 @@ abstract class Usuario {
         this.limiteEmprestimo = limiteEmprestimo;
     }
 
+
+
     public String getNome() {
         return nome;
     }
@@ -40,4 +42,3 @@ abstract class Usuario {
         }
 
 }
-

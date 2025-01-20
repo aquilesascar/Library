@@ -11,10 +11,6 @@ public class Bibliotecario extends Usuario{
     }
 
 
-    public void cadastraUsuario(){
-
-    }
-
     public void cadastraDevolucao(){
 
     }
@@ -34,13 +30,13 @@ public class Bibliotecario extends Usuario{
 
             switch (opcao) {
                 case 1:
-                    cadastraUsuario();
+                    //cadastraUsuario();
                     break;
                 case 2:
-                    registrarDevolucao(bibliotecario);
+                    //registrarDevolucao(bibliotecario);
                     break;
                 case 3:
-                    System.out.println("Total de devoluções realizadas: " + bibliotecario.getTotalDevolucoes());
+                    //System.out.println("Total de devoluções realizadas: " + bibliotecario.getTotalDevolucoes());
                     break;
                 case 4:
                     System.out.println("Logout realizado com sucesso.");
