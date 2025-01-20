@@ -25,19 +25,19 @@ public class Professor extends Usuario{
 
             switch (opcao) {
                 case 1:
-                    consultarObras();
+                    //consultarObras();
                     break;
                 case 2:
                     System.out.print("Digite o título da obra para empréstimo: ");
                     sc.nextLine();
                     String tituloEmprestimo = sc.nextLine();
-                    emprestimo(usuarios, tituloEmprestimo);
+                    //emprestimo(usuarios, tituloEmprestimo);
                     break;
                 case 3:
                     System.out.print("Digite o título da obra para devolução: ");
                     sc.nextLine();
                     String tituloDevolucao = sc.nextLine();
-                    devolucao(usuarios, tituloDevolucao);
+                    //devolucao(usuarios, tituloDevolucao);
                     break;
                 case 4:
                     System.out.println("Logout realizado com sucesso.");

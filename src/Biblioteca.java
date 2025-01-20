@@ -8,6 +8,15 @@ public class Biblioteca {
     private ArrayList<Emprestimo> emprestimos = new ArrayList();
     private ArrayList<Usuario> usuarioLogado;
 
+    public ArrayList<Obra> getObras() {
+        return obras;
+    }
+    public void printObras(int i) {
+        if(obras.get(i) != null) {
+            System.out.println(this.obras.get(i).getId() + " " + this.obras.get(i).getTitulo());
+        }
+    }
+
     public void menuInicial() {
         Scanner sc = new Scanner(System.in);
         while (true) {
@@ -53,18 +62,24 @@ public class Biblioteca {
     }
 
 
-    private void carregarDados() {
+    public void carregarDados() {
         // Carregar dados de obras a partir do arquivo CSV
-        String arquivo = "acervo.csv";
+        String arquivo = "src/acervo.csv";
+
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
             String linha = reader.readLine();
+            linha=reader.readLine();
             while (linha != null) {
                 String pedacosLinha[] = linha.split(",");
-                int id=Integer.parseInt(pedacosLinha[0]);
-                String nome=pedacosLinha[1];
-                int quantidade = Integer.parseInt(pedacosLinha[2]);
-                //String id, String titulo, String autor, String quantDisponivel
-                obras.add(new Obra(id,nome,quantidade));
+                if(pedacosLinha.length>=3) {
+                    int id = Integer.parseInt(pedacosLinha[0]);
+                    String nome = pedacosLinha[1];
+                    int quantidade = Integer.parseInt(pedacosLinha[2]);
+                    //String id, String titulo, String autor, String quantDisponivel
+                    obras.add(new Obra(id, nome, quantidade));
+                    System.out.println("Adicionando Obra: " + id + ", " + nome + ", " + quantidade); // Mensagem de depuração
+                }
+                linha = reader.readLine();
             }
         } catch (FileNotFoundException erro) {
             System.out.println("Caminho do arquivo incorreto");

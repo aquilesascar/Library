@@ -1,5 +1,8 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        Biblioteca biblioteca = new Biblioteca();
+        biblioteca.carregarDados();
+
+        biblioteca.printObras(0);
     }
 }
