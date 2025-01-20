@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -58,22 +55,22 @@ public class Biblioteca {
 
     private void carregarDados() {
         // Carregar dados de obras a partir do arquivo CSV
-        String arquivo= "acervo.csv";
-        try (BufferedReader reader =new BufferedReader(new FileReader(arquivo))){
+        String arquivo = "acervo.csv";
+        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
             String linha = reader.readLine();
             while (linha != null) {
                 String pedacosLinha[] = linha.split(",");
                 //String id, String titulo, String autor, String quantDisponivel
-                obras.add(new Obra(pedacosLinha[0],pedacosLinha[1],pedacosLinha[2]));
+                obras.add(new Obra(pedacosLinha[0], pedacosLinha[1], pedacosLinha[2]));
             }
-
-
-        }catch(IOException e){
-            System.out.println("Arquivo corrompido");
+        } catch (FileNotFoundException erro) {
+            System.out.println("Caminho do arquivo incorreto");
+        } catch (IOException erroLeitura) {
+            System.out.println("Erro na leitura dos dados");
         }
 
-
     }
+
 }
 
 
