@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 class Emprestimo {
     private Usuario usuario;
     private Obra obra;
@@ -9,6 +11,11 @@ class Emprestimo {
         this.obra = obra;
         this.dataEmprestimo = dataEmprestimo;
         this.dataDevolucao = dataDevolucao;
+    }
+
+    public boolean isAtrasado() {
+        LocalDate dataDevolucaoLocalDate = LocalDate.parse(dataDevolucao);
+        return LocalDate.now().isAfter(dataDevolucaoLocalDate);
     }
 
 }

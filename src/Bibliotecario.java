@@ -10,8 +10,9 @@ public class Bibliotecario extends Usuario{
         this.totalDevolucoes = totalDevolucoes;
     }
 
-
+    //acho que esse não fica aqui pq nao tem como acessar os arrays, mas vou deixar pra perguntar antes
     public void cadastraUsuario(){
+
 
     }
 
@@ -37,10 +38,10 @@ public class Bibliotecario extends Usuario{
                     cadastraUsuario();
                     break;
                 case 2:
-                    //registrarDevolucao(bibliotecario);
+                    //registrarDevolucao();
                     break;
                 case 3:
-                   // System.out.println("Total de devoluções realizadas: " + bibliotecario.getTotalDevolucoes());
+                    System.out.println("Total de devoluções realizadas: " + totalDevolucoes);
                     break;
                 case 4:
                     System.out.println("Logout realizado com sucesso.");
@@ -50,4 +51,5 @@ public class Bibliotecario extends Usuario{
             }
         }
     }
+
 }

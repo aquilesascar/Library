@@ -32,4 +32,8 @@ public class Obra {
     public void incrementarQuantidadeDisponivel() {
         quantDisponivel++;
     }
+
+    public void decrementarQuantidadeDisponivel() {
+        quantDisponivel--;
+    }
 }
