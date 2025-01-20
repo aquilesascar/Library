@@ -1,15 +1,15 @@
 public class Obra {
-    private String id;
+    private int id;
     private String titulo;
     private int quantDisponivel;
 
-    public Obra(String id, String titulo, int quantDisponivel) {
+    public Obra(int id, String titulo, int quantDisponivel) {
         this.id = id;
         this.titulo = titulo;
         this.quantDisponivel = quantDisponivel;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

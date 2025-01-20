@@ -60,8 +60,11 @@ public class Biblioteca {
             String linha = reader.readLine();
             while (linha != null) {
                 String pedacosLinha[] = linha.split(",");
+                int id=Integer.parseInt(pedacosLinha[0]);
+                String nome=pedacosLinha[1];
+                int quantidade = Integer.parseInt(pedacosLinha[2]);
                 //String id, String titulo, String autor, String quantDisponivel
-                obras.add(new Obra(pedacosLinha[0], pedacosLinha[1], pedacosLinha[2]));
+                obras.add(new Obra(id,nome,quantidade));
             }
         } catch (FileNotFoundException erro) {
             System.out.println("Caminho do arquivo incorreto");
