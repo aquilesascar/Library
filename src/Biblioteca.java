@@ -11,6 +11,9 @@ public class Biblioteca {
     public ArrayList<Emprestimo> getEmprestimos() {
         return emprestimos;
     }
+   public Biblioteca( ){
+        this.usuarios.add(new Bibliotecario("Seu José", "seujose2000@gmail.com", "Zezinho", "31996659292",0));
+   }
 
     public void consultarObras() {
         Scanner sc = new Scanner(System.in);

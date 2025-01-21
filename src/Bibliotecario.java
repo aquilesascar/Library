@@ -5,8 +5,8 @@ public class Bibliotecario extends Usuario{
     int totalDevolucoes = 0;
 
     public Bibliotecario(String nome, String email, String senha, String telefone, int totalDevolucoes) {
-        super("Seu José", "seujose2000@gmail.com", "Zezinho", 0); //limite de emprestimo não se aplica para o bibliotecario
-        this.telefone = "31996659292";
+        super(nome, email, senha, 0); //limite de emprestimo não se aplica para o bibliotecario
+        this.telefone = telefone;
         this.totalDevolucoes = totalDevolucoes;
     }
 

@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
 public class SistemaBiblioteca {
-    Biblioteca IfOuroBranco = new Biblioteca();
-    public void menuInicial(Biblioteca biblioteca) {
+
+    public static  void menuInicial(Biblioteca biblioteca) {
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("BIBLIOTECA MUNICIPAL DE OURO BRANCO");
@@ -24,12 +24,12 @@ public class SistemaBiblioteca {
             }
         }
     }
-    private void login( Biblioteca biblioteca) {
+    private static void login( Biblioteca biblioteca) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Digite seu email: ");
-        String email = scanner.next();
+        String email = scanner.nextLine();
         System.out.println("Digite sua senha: ");
-        String senha = scanner.next();
+        String senha = scanner.nextLine();
 
         for (int i =0; i < biblioteca.getUsuarios().size(); i++) {
 
