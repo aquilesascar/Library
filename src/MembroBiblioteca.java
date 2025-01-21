@@ -11,8 +11,7 @@ public abstract class MembroBiblioteca extends Usuario {
         while (true) {
             System.out.println("1. Consultar obras");
             System.out.println("2. Realizar empréstimo");
-            System.out.println("3. Realizar devolução");
-            System.out.println("4. Logout");
+            System.out.println("3. Logout");
             System.out.print("Escolha uma opção: ");
             int opcao = sc.nextInt();
 
@@ -27,16 +26,11 @@ public abstract class MembroBiblioteca extends Usuario {
                     if(!biblioteca.realizarEmprestimo(usuario,tituloEmprestimo)){
                         System.out.println("Emprestimo feito com sucesso!");
                     }else{
-                        System.out.println("Obra não encontrada!");
+                        System.out.println("Emprestimo não realizado!.");
                     }
                     break;
+
                 case 3:
-                    System.out.print("Digite o título da obra para devolução: ");
-                    sc.nextLine();
-                    String tituloDevolucao = sc.nextLine();
-                    biblioteca.realizarDevolucao(usuario,tituloDevolucao);
-                    break;
-                case 4:
                     System.out.println("Logout realizado com sucesso.");
                     return;
                 default:

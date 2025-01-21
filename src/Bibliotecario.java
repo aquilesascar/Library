@@ -11,14 +11,8 @@ public class Bibliotecario extends Usuario{
     }
 
     //acho que esse não fica aqui pq nao tem como acessar os arrays, mas vou deixar pra perguntar antes
-    public void cadastraUsuario(){
 
 
-    }
-
-    public void cadastraDevolucao(){
-
-    }
 
 
     @Override
@@ -35,10 +29,19 @@ public class Bibliotecario extends Usuario{
 
             switch (opcao) {
                 case 1:
-                    cadastraUsuario();
+                    biblioteca.cadastraUsuario();
                     break;
                 case 2:
-                    //registrarDevolucao();
+                    System.out.println("Título do livro:");
+                    sc.nextLine();
+                    String tituloLivro = sc.nextLine();
+                    System.out.println("Nome do usuário:");
+                    String nomeUsuario = sc.nextLine();
+                    if(biblioteca.realizarDevolucao(nomeUsuario,tituloLivro)){
+                        System.out.println("Devolução realizada com sucesso!");
+                    }else{
+                        System.out.println("Ocorreu um erro. Não foi possivél fazer a devolução.");
+                    };
                     break;
                 case 3:
                     System.out.println("Total de devoluções realizadas: " + totalDevolucoes);

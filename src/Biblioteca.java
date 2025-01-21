@@ -89,13 +89,23 @@ public class Biblioteca {
         }
         return true;
     }
+    private Usuario buscaUsuario(String nome) {
+        for (Usuario usuario : usuarios) {
+            if(usuario.equals(nome)){
+                return usuario;
+            }
+        }
+        return null;
+    }
 
-    public boolean realizarDevolucao(Usuario usuario,String titulo){
+    public boolean realizarDevolucao(String nome,String titulo){
         Obra obra = buscaTitulo(titulo);
-        if(obra!=null){
+        Usuario usuario = buscaUsuario(nome);
+        if(obra!=null && usuario!=null){
             for (int i=0; i<emprestimos.size(); i++) {
                 if(emprestimos.get(i).getUsuario().equals(usuario)){
                     if(emprestimos.get(i).getObra().equals(obra)){
+                        obra.incrementarQuantidadeDisponivel();
                         emprestimos.remove(i);
                         return true;
                     }
@@ -148,7 +158,7 @@ public class Biblioteca {
 
     }
     //mas somente o bibliotecário pode cadastrar novos usuários, estou na classe certa? não sei, perguntar para a Estella!
-    public void cadastraUsuario(ArrayList<Usuario> usuarios) {
+    public void cadastraUsuario() {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Digite o nome do usuário: ");
