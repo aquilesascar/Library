@@ -7,153 +7,117 @@ public class Biblioteca {
     private ArrayList<Usuario> usuarios = new ArrayList();
     private ArrayList<Obra> obras = new ArrayList();
     private ArrayList<Emprestimo> emprestimos = new ArrayList();
-    private ArrayList<Usuario> usuarioLogado;
+
+    public ArrayList<Emprestimo> getEmprestimos() {
+        return emprestimos;
+    }
 
     public void consultarObras() {
         Scanner sc = new Scanner(System.in);
-
-        System.out.println("Deseja buscar a obra por:");
-        System.out.println("1 - ID");
-        System.out.println("2 - Nome");
-        System.out.print("Escolha uma opção: ");
-        int opcao = sc.nextInt();
-        sc.nextLine();
-
-        switch (opcao) {
-            case 1:
-                System.out.print("Digite o ID da obra: ");
-                int idBusca = sc.nextInt();
-
-                for (Obra obra : obras) {
-                    if (obra.getId() == idBusca) {
+        while(true) {
+            System.out.println("Deseja buscar a obra por:");
+            System.out.println("1 - ID");
+            System.out.println("2 - Nome");
+            System.out.print("Escolha uma opção: ");
+            int opcao = sc.nextInt();
+            sc.nextLine();
+            Obra obra=null;
+            switch (opcao) {
+                case 1:
+                    System.out.print("Digite o ID da obra: ");
+                    int idBusca = sc.nextInt();
+                    obra = buscaId(idBusca);
+                    if(obra!=null) {
                         System.out.println("Obra encontrada:");
                         System.out.println(obra);
-                        return;
+                    }else {
+                        System.out.println("Obra com ID " + idBusca + " não encontrada.");
                     }
-                }
-                System.out.println("Obra com ID " + idBusca + " não encontrada.");
-                break;
+                    break;
 
-            case 2:
-                System.out.print("Digite o nome (título) da obra: ");
-                String tituloBusca = sc.nextLine();
-
-                for (Obra obra : obras) {
-                    if (obra.getTitulo().equalsIgnoreCase(tituloBusca)) {
+                case 2:
+                    System.out.print("Digite o nome (título) da obra: ");
+                    String tituloBusca = sc.nextLine();
+                    obra= buscaTitulo(tituloBusca);
+                    if(obra!=null) {
                         System.out.println("Obra encontrada:");
                         System.out.println(obra);
-                        return;
-                    }
-                }
-                System.out.println("Obra com título \"" + tituloBusca + "\" não encontrada.");
-                break;
+                    }else {
 
-            default:
-                System.err.println("Opção inválida.");
+                        System.out.println("Obra com título \"" + tituloBusca + "\" não encontrada.");
+                    }
+                    break;
+
+                default:
+                    System.err.println("Opção inválida.Tente novamente");
+            }
         }
     }
+
+    private Obra buscaTitulo(String tituloBusca) {
+        for (Obra obra : obras) {
+            if (obra.getTitulo().equalsIgnoreCase(tituloBusca)) {
+                 return obra;
+            }
+        }
+        return null;
+    }
+
+    private Obra buscaId(int idBusca) {
+        for (Obra obra : obras) {
+            if (obra.getId() == idBusca) {
+                return obra;
+            }
+        }
+        return null;
+    }
+
 
 
     public ArrayList<Obra> getObras() {
         return obras;
     }
 
-    public void printObras(int i) {
-        if(obras.get(i) != null) {
-            System.out.println(this.obras.get(i).getId() + " " + this.obras.get(i).getTitulo());
+    private boolean podeEmprestarLivro(Usuario usuario){
+        for (Emprestimo emprestimo : emprestimos) {
+            if(emprestimo.getUsuario().equals(usuario)){
+                if(emprestimo.isAtrasado()){
+                    return false;
+                }
+            }
+
         }
+        return true;
     }
 
-    public boolean realizarEmprestimo(Usuario usuario, Obra obra) {
-        if (usuario.verificarLimiteEmprestimo() && obra.getQuantDisponivel() > 0) {
-            usuario.decrementarLimiteEmprestimo();
-            obra.decrementarQuantidadeDisponivel();
-            emprestimos.add(new Emprestimo(usuario, obra, LocalDate.now().toString(), null));
-            return true;
+    public boolean realizarDevolucao(Usuario usuario,String titulo){
+        Obra obra = buscaTitulo(titulo);
+        if(obra!=null){
+            for (int i=0; i<emprestimos.size(); i++) {
+                if(emprestimos.get(i).getUsuario().equals(usuario)){
+                    if(emprestimos.get(i).getObra().equals(obra)){
+                        emprestimos.remove(i);
+                        return true;
+                    }
+                }
+            }
         }
         return false;
+
     }
 
-
-    public void menuInicial() {
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            System.out.println("BIBLIOTECA MUNICIPAL DE OURO BRANCO");
-            System.out.println("1. Login");
-            System.out.println("2. Sair");
-            System.out.println("Escolha uma opção: ");
-            int opcao = sc.nextInt();
-
-            switch (opcao) {
-                case 1:
-                    System.out.println("1. Login Aluno");
-                    System.out.println("2. Login Professor");
-                    System.out.println("Escolha uma opção: ");
-                    int tipoLogin = sc.nextInt();
-
-                    switch (tipoLogin) {
-                        case 1:
-                            System.out.println("Login como Aluno selecionado.");
-                            //chama método de login para Aluno
-                            loginAluno(sc);
-                            break;
-                        case 2:
-                            System.out.println("Login como Professor selecionado.");
-                            //chamaa método de login para Professor
-                            loginProfessor(sc);
-                            break;
-                        default:
-                            System.err.println("Opção de login inválida!");
-                            break;
-                    }
-                    break;
-                case 2:
-                    System.out.println("Saindo do sistema...");
-                    return; // Encerra o programa
-                default:
-                    System.err.println("Opção inválida!");
-                    break;
+    public boolean realizarEmprestimo(Usuario usuario, String titulo) {
+        if(podeEmprestarLivro(usuario)) {
+            Obra obra = buscaTitulo(titulo);
+            if (usuario.verificarLimiteEmprestimo() && obra != null && obra.getQuantDisponivel() > 0) {
+                usuario.decrementarLimiteEmprestimo();
+                obra.decrementarQuantidadeDisponivel();
+                emprestimos.add(new Emprestimo(usuario, obra, LocalDate.now()));
+                return true;
             }
+            return false;
         }
-    }
-
-    private void loginAluno(Scanner sc) {
-        System.out.println("Digite seu email: ");
-        String email = sc.next();
-        System.out.println("Digite sua senha: ");
-        String senha = sc.next();
-
-        System.out.println("Bem-vindo, Aluno!");
-    }
-
-    private void loginProfessor(Scanner sc) {
-        System.out.println("Digite seu email: ");
-        String email = sc.next();
-        System.out.println("Digite sua senha: ");
-        String senha = sc.next();
-        //não sei, mas ainda tem uma lógica por trás disso, tem que fazer mais coisa
-        System.out.println("Bem-vindo, Professor!");
-    }
-
-
-    private void login(Scanner scanner) {
-        System.out.println("Digite seu email: ");
-        String email = scanner.next();
-        System.out.println("Digite sua senha: ");
-        String senha = scanner.next();
-
-        for (int i =0; i < usuarios.size(); i++) {
-
-            Usuario u = usuarios.get(i); //pegue o usuário do ArrayList
-            if (u.getEmail().equals(email) && u.getSenha().equals(senha) ) { //verifique email e senha
-
-                System.out.println("Bem-vindo, " + u.getNome() + "!");
-                usuarios.get(i).menu(u);
-                return;
-            }
-        }
-        System.out.println("Email ou senha inválidos. Tente novamente.");
-
+        return false;
     }
 
 
@@ -213,6 +177,7 @@ public class Biblioteca {
                 System.out.println("Digite o número de matrícula do aluno: ");
                 int matricula = sc.nextInt();
                 System.out.println("Digite o curso do aluno: ");
+                sc.nextLine();
                 String curso = sc.nextLine();
 
                 novoUsuario = new Aluno(nome, email, senha, matricula, curso, 2); //limite de empréstimos para alunos é 2

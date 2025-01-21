@@ -25,7 +25,7 @@ abstract class Usuario {
         return senha;
     }
 
-    protected abstract void menu(Usuario usuarios);
+    protected abstract void menu(Usuario usuario ,Biblioteca biblioteca);
 
     protected boolean verificarLimiteEmprestimo() {
         return limiteEmprestimo > 0;
@@ -40,5 +40,6 @@ abstract class Usuario {
     protected void incrementarLimiteEmprestimo() {
             limiteEmprestimo++;
         }
+
 
 }

@@ -3,6 +3,6 @@ public class Main {
         Biblioteca biblioteca = new Biblioteca();
         biblioteca.carregarDados();
 
-        biblioteca.printObras(0);
+        biblioteca.consultarObras();
     }
 }

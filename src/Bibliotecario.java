@@ -22,7 +22,7 @@ public class Bibliotecario extends Usuario{
 
 
     @Override
-    protected void menu(Usuario usuarios) {
+    public void menu(Usuario usuarios, Biblioteca biblioteca) {
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("MENU DO BIBLIOTECÁRIO");
