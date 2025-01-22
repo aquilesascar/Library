@@ -7,6 +7,4 @@ public class Professor extends MembroBiblioteca{
         this.departamento = departamento;
     }
 
-
-
 }
