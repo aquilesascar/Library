@@ -23,7 +23,7 @@ public abstract class MembroBiblioteca extends Usuario {
                     System.out.print("Digite o título da obra para empréstimo: ");
                     sc.nextLine();
                     String tituloEmprestimo = sc.nextLine();
-                    if(!biblioteca.realizarEmprestimo(usuario,tituloEmprestimo)){
+                    if(!biblioteca.realizarEmprestimo(usuario.getNome(),tituloEmprestimo)){
                         System.out.println("Emprestimo feito com sucesso!");
                     }else{
                         System.out.println("Emprestimo não realizado!.");

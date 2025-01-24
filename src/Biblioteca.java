@@ -1,4 +1,5 @@
 import java.io.*;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -119,13 +120,16 @@ public class Biblioteca {
 
     }
 
-    public boolean realizarEmprestimo(Usuario usuario, String titulo) {
-        if(podeEmprestarLivro(usuario)) {
+    public boolean realizarEmprestimo(String nomeUsuario, String titulo) {
+        //Verificando se usuario existe
+        Usuario usuario = buscaUsuario(nomeUsuario);
+        if(podeEmprestarLivro(usuario) && usuario!=null) {
+            //verificando se a obra existe
             Obra obra = buscaTitulo(titulo);
             if (usuario.verificarLimiteEmprestimo() && obra != null && obra.getQuantDisponivel() > 0) {
                 usuario.decrementarLimiteEmprestimo();
                 obra.decrementarQuantidadeDisponivel();
-                emprestimos.add(new Emprestimo(usuario, obra, LocalDate.now()));
+                emprestimos.add(new Emprestimo(usuario.getNome(), obra.getTitulo(), LocalDate.now(), null));
                 return true;
             }
             return false;
@@ -166,6 +170,39 @@ public class Biblioteca {
         }
 
     }
+    public void carregarDadosEmprestimo() {
+        // Carregar dados de obras a partir do arquivo CSV
+        String arquivo = "emprestimos.txt";
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
+            String linha = reader.readLine();
+            linha=reader.readLine();
+            while (linha != null) {
+                String pedacosLinha[] = linha.split(",");
+                if(pedacosLinha.length>=4) {
+                    String obra = pedacosLinha[0];
+                    String nomeUsuario = pedacosLinha[1];
+                  try {
+                      LocalDate dataEmprestimo = LocalDate.parse(pedacosLinha[2]);
+                      LocalDate dataDevolucao = LocalDate.parse(pedacosLinha[3]);
+
+                      emprestimos.add(new Emprestimo(nomeUsuario, obra, dataEmprestimo, dataDevolucao));
+                  }catch (DateTimeException erro) {
+                      System.out.println("Formato de data Invalido.");
+                  }
+
+                }
+                linha = reader.readLine();
+            }
+            System.out.println("Arquivo "+arquivo+" carregado com sucesso!"  );
+        } catch (FileNotFoundException erro) {
+            System.out.println("Caminho do arquivo incorreto");
+        } catch (IOException erroLeitura) {
+            System.out.println("Erro na leitura dos dados");
+        }
+
+    }
+
 
     public void descarregarDadosAcervo(){
         String arquivo = "acervoAtualizado.txt";
@@ -181,6 +218,22 @@ public class Biblioteca {
 
     }catch (IOException erro) {
         System.out.println("Erro ao salvar daddos do acervo");}
+    }
+
+    public void descarregarDadosEmprestimo(){
+        String arquivo = "emprestimoAtualizado.txt";
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))){
+            writer.write("Obra,Usuario,Data de Emprestimo, Data de Devolução");
+            writer.newLine();
+            for(Emprestimo emprestimo : emprestimos){
+                writer.write(emprestimo.getObra()+","+emprestimo.getUsuario()+","+emprestimo.getDataEmprestimo()+","+emprestimo.getDataDevolucao());
+                writer.newLine();
+            }
+            System.out.println("Dados de emprestimo atualizado com sucesso.");
+
+        }catch (IOException erro) {
+            System.out.println("Erro ao salvar daddos de Emprestimo");}
+
     }
     //mas somente o bibliotecário pode cadastrar novos usuários, estou na classe certa? não sei, perguntar para a Estella!
     public void cadastraUsuario() {
