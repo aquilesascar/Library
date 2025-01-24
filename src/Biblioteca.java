@@ -134,11 +134,16 @@ public class Biblioteca {
     }
 
 
-    public void carregarDados() {
+    public void carregarDadosAcervo() {
         // Carregar dados de obras a partir do arquivo CSV
-        String arquivo = "src/acervo.csv";
+        String arquivo = "acervoAtualizado.txt";
+        File file = new File(arquivo);
+        if(!file.exists()){
+            arquivo = "acervo.csv";
+            file=new File(arquivo);
+        }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String linha = reader.readLine();
             linha=reader.readLine();
             while (linha != null) {
@@ -149,16 +154,33 @@ public class Biblioteca {
                     int quantidade = Integer.parseInt(pedacosLinha[2]);
                     //String id, String titulo, String autor, String quantDisponivel
                     obras.add(new Obra(id, nome, quantidade));
-                    System.out.println("Adicionando Obra: " + id + ", " + nome + ", " + quantidade); // Mensagem de depuração
+
                 }
                 linha = reader.readLine();
             }
+            System.out.println("Arquivo "+arquivo+" carregado com sucesso!"  );
         } catch (FileNotFoundException erro) {
             System.out.println("Caminho do arquivo incorreto");
         } catch (IOException erroLeitura) {
             System.out.println("Erro na leitura dos dados");
         }
 
+    }
+
+    public void descarregarDadosAcervo(){
+        String arquivo = "acervoAtualizado.txt";
+
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))){
+            writer.write("ID,Título,Quantidade");
+            writer.newLine();
+            for(Obra obra : obras){
+                writer.write(obra.getId()+","+obra.getTitulo()+","+obra.getQuantDisponivel());
+                writer.newLine();
+            }
+            System.out.println("Dados do acervo atualizado com sucesso.");
+
+    }catch (IOException erro) {
+        System.out.println("Erro ao salvar daddos do acervo");}
     }
     //mas somente o bibliotecário pode cadastrar novos usuários, estou na classe certa? não sei, perguntar para a Estella!
     public void cadastraUsuario() {
@@ -176,45 +198,40 @@ public class Biblioteca {
                 return;
             }
         }
+        int tipoUsuario;
+        do {
+            System.out.println("Digite a senha do usuário: ");
+            String senha = sc.nextLine();
+            System.out.println("Selecione o tipo de usuário:");
+            System.out.println("1 - Aluno");
+            System.out.println("2 - Professor");
+            tipoUsuario = sc.nextInt();
 
-        System.out.println("Digite a senha do usuário: ");
-        String senha = sc.nextLine();
-        System.out.println("Selecione o tipo de usuário:");
-        System.out.println("1 - Aluno");
-        System.out.println("2 - Professor");
-        int tipoUsuario = sc.nextInt();
+            Usuario novoUsuario = null;
+            switch (tipoUsuario) {
+                case 1:
+                    System.out.println("Digite o número de matrícula do aluno: ");
+                    int matricula = sc.nextInt();
+                    System.out.println("Digite o curso do aluno: ");
+                    sc.nextLine();
+                    String curso = sc.nextLine();
 
-        Usuario novoUsuario = null;
-        switch (tipoUsuario) {
-            case 1:
-                System.out.println("Digite o número de matrícula do aluno: ");
-                int matricula = sc.nextInt();
-                System.out.println("Digite o curso do aluno: ");
-                sc.nextLine();
-                String curso = sc.nextLine();
+                    novoUsuario = new Aluno(nome, email, senha, matricula, curso, 2); //limite de empréstimos para alunos é 2
+                    break;
 
-                novoUsuario = new Aluno(nome, email, senha, matricula, curso, 2); //limite de empréstimos para alunos é 2
-                break;
+                case 2:
+                    System.out.println("Digite o departamento do professor: ");
+                    String departamento = sc.nextLine();
 
-            case 2:
-                System.out.println("Digite o departamento do professor: ");
-                String departamento = sc.nextLine();
+                    novoUsuario = new Professor(nome, email, senha, departamento);
+                    break;
 
-                novoUsuario = new Professor(nome, email, senha, departamento);
-                break;
+                default:
+                    System.err.println("Opção inválida.Tente novamente");
 
-            default:
-                System.err.println("Opção inválida.");
-                return;
-        }
+            }
+        }while(tipoUsuario<1|| tipoUsuario>2);
 
-        // Adiciona o novo usuário à lista
-        if (novoUsuario != null) {
-            usuarios.add(novoUsuario);
-            System.out.println("Usuário cadastrado com sucesso!");
-        }else{
-            System.err.println("Usuário já cadastrada!");
-        }
     }
 
     public ArrayList<Usuario> getUsuarios() {
