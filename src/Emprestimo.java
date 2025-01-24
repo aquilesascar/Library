@@ -25,7 +25,7 @@ class Emprestimo {
         return dataDevolucao;
     }
 
-    public Usuario getUsuario() {
+    public String getUsuario() {
         return usuario;
     }
 
