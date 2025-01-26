@@ -1,8 +1,20 @@
 import java.util.Scanner;
 
 public abstract class MembroBiblioteca extends Usuario {
-    public MembroBiblioteca(String nome, String email, String senha, int limiteEmprestimo) {
-        super(nome, email, senha, limiteEmprestimo);
+    private int limiteEmprestimo;
+    private int livrosEmprestados;
+
+
+    public MembroBiblioteca(String nome, String email, String senha, int limiteEmprestimo, int livrosEmprestados) {
+        super(nome, email, senha);
+        this.limiteEmprestimo = limiteEmprestimo;
+        this.livrosEmprestados = livrosEmprestados;
+    }
+
+
+
+    public int getlivrosEmprestados() {
+        return livrosEmprestados;
     }
 
     @Override
@@ -32,6 +44,7 @@ public abstract class MembroBiblioteca extends Usuario {
 
                 case 3:
                     System.out.println("Logout realizado com sucesso.");
+                    sc.nextLine();
                     return;
                 default:
                     System.err.println("Opção inválida. Tente novamente.");
@@ -39,6 +52,21 @@ public abstract class MembroBiblioteca extends Usuario {
         }
     }
 
+    protected boolean verificarLimiteEmprestimo() {
+        return (limiteEmprestimo -livrosEmprestados) > 0;
+    }
+
+    public void incrementarLivrosEmprestados() {
+        if ((limiteEmprestimo-livrosEmprestados) > 0) {
+            livrosEmprestados++;
+        }
+    }
+
+
+
+
 }
+
+
 
 

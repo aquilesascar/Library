@@ -41,4 +41,16 @@ class Emprestimo {
     public void setDataDevolucao(LocalDate dataDevolucao) {
         this.dataDevolucao = dataDevolucao;
     }
+
+    @Override
+    public String toString() {
+        LocalDate data = dataEmprestimo.plusDays(diasEmprestado);
+        return  "Obra emprestada: "+obra +'\''+
+                "Usuario: "+usuario +'\''+
+                "Data do Emprestimo: " + dataEmprestimo +'\''+
+                "Data prevista para devolução: "+ data.getDayOfMonth()+"/"+data.getMonthValue()+"/"+data.getYear();
+    }
+
+
 }
+

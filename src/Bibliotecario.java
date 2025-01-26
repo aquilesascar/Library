@@ -5,7 +5,7 @@ public class Bibliotecario extends Usuario{
     int totalDevolucoes = 0;
 
     public Bibliotecario(String nome, String email, String senha, String telefone, int totalDevolucoes) {
-        super(nome, email, senha, 0); //limite de emprestimo não se aplica para o bibliotecario
+        super(nome, email, senha); //limite de emprestimo não se aplica para o bibliotecario
         this.telefone = telefone;
         this.totalDevolucoes = totalDevolucoes;
     }
@@ -22,8 +22,9 @@ public class Bibliotecario extends Usuario{
             System.out.println("MENU DO BIBLIOTECÁRIO");
             System.out.println("1. Cadastrar novo usuário");
             System.out.println("2. Registrar devolução");
-            System.out.println("3. Consultar total de devoluções realizadas");
-            System.out.println("4. Logout");
+            System.out.println("3. Relatório de Livros Atrasados");
+            System.out.println("4. Relatório de Livros Emprestados");
+            System.out.println("5. Logout");
             System.out.print("Escolha uma opção: ");
             int opcao = sc.nextInt();
 
@@ -44,10 +45,15 @@ public class Bibliotecario extends Usuario{
                     };
                     break;
                 case 3:
-                    System.out.println("Total de devoluções realizadas: " + totalDevolucoes);
+                    biblioteca.relatorioAtrasados();
                     break;
                 case 4:
+                    biblioteca.relatorioEmprestados();
+                    break;
+
+                case 5:
                     System.out.println("Logout realizado com sucesso.");
+                    sc.nextLine();
                     return; // Sai do menu
                 default:
                     System.err.println("Opção inválida. Tente novamente.");
