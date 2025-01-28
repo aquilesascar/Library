@@ -12,6 +12,11 @@ public class SistemaBiblioteca {
         biblioteca
 
         Scanner sc = new Scanner(System.in);
+
+        biblioteca.carregarDadosAcervo();
+        biblioteca.carregarUsuariosAluno();
+        biblioteca.carregarUsuariosProfessor();
+        biblioteca.carregarDadosEmprestimo();
         while (true) {
             System.out.println("BIBLIOTECA MUNICIPAL DE OURO BRANCO");
             System.out.println("1. Login");
@@ -25,6 +30,10 @@ public class SistemaBiblioteca {
                     break;
                 case 2:
                     System.out.println("Saindo do sistema...");
+                    biblioteca.descarregarDadosAcervo();
+                    biblioteca.descarrecarUsuarioAluno();
+                    biblioteca.descarrecarUsuarioProfessor();
+                    biblioteca.descarregarDadosEmprestimo();
                     return; // Encerra o programa
                 default:
                     System.err.println("Opção inválida!");

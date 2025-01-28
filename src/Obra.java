@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class Obra {
     private int id;
     private String titulo;
@@ -8,6 +10,8 @@ public class Obra {
         this.titulo = titulo;
         this.quantDisponivel = quantDisponivel;
     }
+
+
 
     public int getId() {
         return id;

@@ -2,14 +2,14 @@ abstract class Usuario {
     private String nome;
     private String email;
     private String senha;
-    private int limiteEmprestimo;
 
-    public Usuario(String nome, String email, String senha, int limiteEmprestimo) {
+
+    public Usuario(String nome, String email, String senha) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
-        this.limiteEmprestimo = limiteEmprestimo;
     }
+
 
     public String getNome() {
         return nome;
@@ -23,21 +23,7 @@ abstract class Usuario {
         return senha;
     }
 
-    protected abstract void menu(Usuario usuario ,Biblioteca biblioteca);
 
-    protected boolean verificarLimiteEmprestimo() {
-        return limiteEmprestimo > 0;
-    }
-
-    public void decrementarLimiteEmprestimo() {
-        if (limiteEmprestimo > 0) {
-            limiteEmprestimo--;
-        }
-    }
-
-    protected void incrementarLimiteEmprestimo() {
-            limiteEmprestimo++;
-        }
-
-
+    protected abstract void menu(Usuario usuario, Biblioteca biblioteca);
 }
+
