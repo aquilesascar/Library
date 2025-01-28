@@ -99,7 +99,7 @@ public class Biblioteca {
     }
     private Usuario buscaUsuario(String nome) {
         for (Usuario usuario : usuarios) {
-            if(usuario.equals(nome)){
+            if(usuario.getNome().equalsIgnoreCase(nome)){
                 return usuario;
             }
         }
@@ -126,20 +126,29 @@ public class Biblioteca {
     public boolean realizarEmprestimo(String nomeUsuario, String titulo) {
         //Verificando se usuario existe
         Usuario usuario = buscaUsuario(nomeUsuario);
-        if(usuario !=null && usuario instanceof MembroBiblioteca ) {
+        if(usuario instanceof MembroBiblioteca) {
             if (podeEmprestarLivro(usuario)) {
                 //verificando se a obra existe
                 Obra obra = buscaTitulo(titulo);
-                if (((MembroBiblioteca) usuario).verificarLimiteEmprestimo() && obra != null && obra.getQuantDisponivel() > 0) {
+                if ( obra != null && obra.getQuantDisponivel() > 0) {
                      ((MembroBiblioteca) usuario).incrementarLivrosEmprestados();
                     obra.decrementarQuantidadeDisponivel();
                     emprestimos.add(new Emprestimo(usuario.getNome(), obra.getTitulo(), LocalDate.now(), null));
                     return true;
+                }else{
+                    System.out.println("Obra não encontrada.");
+                    return false;
                 }
+
+            }else{
+                System.out.println("Usuario já excedeu o limite de emprestimos.");
                 return false;
             }
+        }else{
+            System.out.println("Usuario não é um Aluno ou Professor.");
+            return false;
         }
-        return false;
+
     }
 
 
@@ -208,7 +217,7 @@ public class Biblioteca {
 
     }
     public void carregarUsuariosProfessor(){
-        String arquivo = "usuariosPofessor.txt";
+        String arquivo = "usuariosProfessor.txt";
 
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
             String linha = reader.readLine();
@@ -328,7 +337,7 @@ public class Biblioteca {
     }
 
     public void descarregarDadosEmprestimo(){
-        String arquivo = "emprestimoAtualizado.txt";
+        String arquivo = "emprestimos.txt";
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))){
             writer.write("Obra,Usuario,Data de Emprestimo, Data de Devolução");
             writer.newLine();
