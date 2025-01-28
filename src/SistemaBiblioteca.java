@@ -3,6 +3,14 @@ import java.util.Scanner;
 public class SistemaBiblioteca {
 
     public static  void menuInicial(Biblioteca biblioteca) {
+        String acervo= "acervo.csv";
+        String dadosusuario="dadosDoUsuario.txt";
+        String historicoDeEmprestimo="historicoDeEmprestimo.txt";
+        String obras="obras.txt";
+
+        biblioteca.carregarDados(acervo,obras);
+        biblioteca
+
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("BIBLIOTECA MUNICIPAL DE OURO BRANCO");

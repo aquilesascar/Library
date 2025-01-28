@@ -134,9 +134,8 @@ public class Biblioteca {
     }
 
 
-    public void carregarDados() {
+    public void carregarDados(String arquivo,String obra) {
         // Carregar dados de obras a partir do arquivo CSV
-        String arquivo = "src/acervo.csv";
 
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
             String linha = reader.readLine();
