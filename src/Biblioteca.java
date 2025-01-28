@@ -22,6 +22,7 @@ public class Biblioteca {
             System.out.println("Deseja buscar a obra por:");
             System.out.println("1 - ID");
             System.out.println("2 - Nome");
+            System.out.println("3- Sair");
             System.out.print("Escolha uma opção: ");
             int opcao = sc.nextInt();
             sc.nextLine();
@@ -51,6 +52,9 @@ public class Biblioteca {
                         System.out.println("Obra com título \"" + tituloBusca + "\" não encontrada.");
                     }
                     break;
+                case 3:
+                    System.out.println("Saindo do buscador...");
+                    return;
 
                 default:
                     System.err.println("Opção inválida.Tente novamente");
@@ -122,7 +126,7 @@ public class Biblioteca {
     public boolean realizarEmprestimo(String nomeUsuario, String titulo) {
         //Verificando se usuario existe
         Usuario usuario = buscaUsuario(nomeUsuario);
-        if(usuario instanceof MembroBiblioteca && usuario==null) {
+        if(usuario !=null && usuario instanceof MembroBiblioteca ) {
             if (podeEmprestarLivro(usuario)) {
                 //verificando se a obra existe
                 Obra obra = buscaTitulo(titulo);
@@ -180,7 +184,7 @@ public class Biblioteca {
             linha=reader.readLine();
             while (linha != null) {
                 String pedacosLinha[] = linha.split(",");
-                if(pedacosLinha.length>=4) {
+                if(pedacosLinha.length>=3) {
                     String obra = pedacosLinha[0];
                     String nomeUsuario = pedacosLinha[1];
                   try {
@@ -211,13 +215,14 @@ public class Biblioteca {
             linha=reader.readLine();
             while (linha != null) {
                 String pedacosLinha[] = linha.split(",");
-                if(pedacosLinha.length>=5) {
+                if(pedacosLinha.length>=4) {
                    // String nome, String email, String senha, String departamento
                     String nomeUsuario = pedacosLinha[0];
                     String email = pedacosLinha[1];
                     String senha=pedacosLinha[2];
                     String departamento = pedacosLinha[3];
                     int livrosEmprestados = Integer.parseInt(pedacosLinha[4]);
+
                     usuarios.add(new Professor(nomeUsuario, email, senha, departamento, livrosEmprestados));
                 }
                 linha = reader.readLine();
@@ -240,7 +245,7 @@ public class Biblioteca {
             linha=reader.readLine();
             while (linha != null) {
                 String pedacosLinha[] = linha.split(",");
-                if(pedacosLinha.length>=6) {
+                if(pedacosLinha.length>=5) {
                     //String nome, String email, String senha, String matricula, String curso
                     String nomeUsuario = pedacosLinha[0];
                     String email = pedacosLinha[1];
@@ -248,6 +253,7 @@ public class Biblioteca {
                     String matricula = pedacosLinha[3];
                     String curso = pedacosLinha[4];
                     int livrosEmprestados = Integer.parseInt(pedacosLinha[5]);
+
                     usuarios.add(new Aluno(nomeUsuario, email, senha, matricula, curso, livrosEmprestados));
                 }
                 linha = reader.readLine();
@@ -274,7 +280,7 @@ public class Biblioteca {
 
                     //String nome, String email, String senha, int matricula, String curso, int limiteEmprestimo
                     writer.write(usuario.getNome()+","+usuario.getEmail()+","+usuario.getSenha()+","+((Aluno) usuario).getMatricula()+","
-                            +((Aluno) usuario).getCurso());
+                            +((Aluno) usuario).getCurso()+","+((Aluno) usuario).getlivrosEmprestados());
                     writer.newLine();
                 }
             }
@@ -288,13 +294,13 @@ public class Biblioteca {
         String arquivo = "usuariosProfessor.txt";
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))){
-            writer.write("Nome,Email,Senha,Departamento,Limite de Emprestimo");
+            writer.write("Nome,Email,Senha,Departamento,Livros Emprestados");
             writer.newLine();
             for(Usuario usuario : usuarios){
                 if(usuario instanceof Professor) {
                     //String nome, String email, String senha, String departamento
                     writer.write(usuario.getNome()+","+usuario.getEmail()+","+usuario.getSenha()+","
-                            +((Professor) usuario).getDepartamento());
+                            +((Professor) usuario).getDepartamento()+","+((Professor) usuario).getlivrosEmprestados());
                     writer.newLine();
                 }
             }
@@ -370,14 +376,17 @@ public class Biblioteca {
                     System.out.println("Digite o curso do aluno: ");
                     String curso = sc.nextLine();
 
-                    novoUsuario = new Aluno(nome, email, senha, matricula, curso,0); //limite de empréstimos para alunos é 2
+                    novoUsuario = new Aluno(nome, email, senha, matricula, curso,0);
+                    usuarios.add(novoUsuario);//limite de empréstimos para alunos é 2
                     break;
 
                 case 2:
                     System.out.println("Digite o departamento do professor: ");
+                    sc.nextLine();
                     String departamento = sc.nextLine();
 
                     novoUsuario = new Professor(nome, email, senha, departamento,0);
+                    usuarios.add(novoUsuario);
                     break;
 
                 default:
@@ -428,4 +437,6 @@ public class Biblioteca {
             System.out.println("Erro ao tentar escrever no arquivo"+arquivo);
         }
     }
+
+
 }
