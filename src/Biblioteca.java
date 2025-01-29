@@ -110,16 +110,24 @@ public class Biblioteca {
         Obra obra = buscaTitulo(titulo);
         Usuario usuario = buscaUsuario(nome);
         if(obra!=null && usuario!=null){
-            for (int i=0; i<emprestimos.size(); i++) {
-                if(emprestimos.get(i).getUsuario().equals(usuario)){
-                    if(emprestimos.get(i).getObra().equals(obra)){
+            for (Emprestimo emprestimo : emprestimos) {
+                if(emprestimo.getUsuario().equalsIgnoreCase(usuario.getNome())){
+                    if(emprestimo.getObra().equalsIgnoreCase(obra.getTitulo())){
+                        emprestimo.setDataDevolucao(LocalDate.now());
                         obra.incrementarQuantidadeDisponivel();
+                        if(usuario instanceof MembroBiblioteca){
+                            ((MembroBiblioteca) usuario).decrementarLivrosEmprestados();
+                        }
                         return true;
                     }
                 }
             }
+            System.out.println("Usuário ou Obra não constam na lista de livros emprestados");
+            return false;
+        }else {
+            System.out.println("Obra ou usuário incorreto.");
+            return false;
         }
-        return false;
 
     }
 
@@ -127,7 +135,7 @@ public class Biblioteca {
         //Verificando se usuario existe
         Usuario usuario = buscaUsuario(nomeUsuario);
         if(usuario instanceof MembroBiblioteca) {
-            if (podeEmprestarLivro(usuario)) {
+            if (podeEmprestarLivro(usuario) && ((MembroBiblioteca) usuario).verificarLimiteEmprestimo()) {
                 //verificando se a obra existe
                 Obra obra = buscaTitulo(titulo);
                 if ( obra != null && obra.getQuantDisponivel() > 0) {
@@ -141,7 +149,7 @@ public class Biblioteca {
                 }
 
             }else{
-                System.out.println("Usuario já excedeu o limite de emprestimos.");
+                System.out.println("Usuario já excedeu o limite de emprestimos ou está com está com algum livro atrasado.");
                 return false;
             }
         }else{
@@ -193,12 +201,16 @@ public class Biblioteca {
             linha=reader.readLine();
             while (linha != null) {
                 String pedacosLinha[] = linha.split(",");
-                if(pedacosLinha.length>=3) {
+                if(pedacosLinha.length>=4) {
                     String obra = pedacosLinha[0];
                     String nomeUsuario = pedacosLinha[1];
                   try {
                       LocalDate dataEmprestimo = LocalDate.parse(pedacosLinha[2]);
-                      LocalDate dataDevolucao = LocalDate.parse(pedacosLinha[3]);
+                      LocalDate dataDevolucao;
+                      if(pedacosLinha[3].equals("null")){
+                          dataDevolucao=null;
+                      }else{
+                      dataDevolucao = LocalDate.parse(pedacosLinha[3]);}
 
                       emprestimos.add(new Emprestimo(nomeUsuario, obra, dataEmprestimo, dataDevolucao));
                   }catch (DateTimeException erro) {
@@ -351,6 +363,8 @@ public class Biblioteca {
             System.out.println("Erro ao salvar daddos de Emprestimo");}
 
     }
+
+
     //mas somente o bibliotecário pode cadastrar novos usuários, estou na classe certa? não sei, perguntar para a Estella!
     public void cadastraUsuario() {
         Scanner sc = new Scanner(System.in);
@@ -412,7 +426,7 @@ public class Biblioteca {
 
     public void relatorioAtrasados(){
         LocalDate data= LocalDate.now();
-        String arquivo = "relatorioAtrasados"+data.getDayOfMonth()+"_"+data.getMonthValue()+"_"+data.getYear();
+        String arquivo = "relatorioAtrasados_"+data.getDayOfMonth()+"_"+data.getMonthValue()+"_"+data.getYear();
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))){
             writer.write("RELATÓRIO DE LIVROS ATRASADOS");
             writer.newLine();
@@ -431,16 +445,18 @@ public class Biblioteca {
 
     public void relatorioEmprestados(){
         LocalDate data= LocalDate.now();
-        String arquivo = "relatorioEmprestados"+data.getMonthValue()+"_"+data.getYear();
+        String arquivo = "relatorioEmprestados_"+data.getDayOfMonth()+"_"+data.getMonthValue()+"_"+data.getYear();
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))){
             writer.write("RELATÓRIO DE LIVROS EMPRESTADOS");
             writer.newLine();
             for(Emprestimo emprestimo: emprestimos){
-                if(emprestimo.getDataDevolucao()!=null){
+                if(emprestimo.getDataDevolucao() ==null){
                     writer.write(String.valueOf(emprestimo));
                     writer.newLine();
                 }
             }
+            System.out.println("Relatório de livros emprestados gerado com sucesso.");
+            System.out.println("O nome do arquivo é: "+arquivo);
 
         }catch (IOException erro){
             System.out.println("Erro ao tentar escrever no arquivo"+arquivo);

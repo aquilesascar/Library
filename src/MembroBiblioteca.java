@@ -58,7 +58,12 @@ public abstract class MembroBiblioteca extends Usuario {
 
     public void incrementarLivrosEmprestados() {
             livrosEmprestados++;
-        }
+    }
+    public void decrementarLivrosEmprestados() {
+        livrosEmprestados--;
+    }
+
+
 
 
 

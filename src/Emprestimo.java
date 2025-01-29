@@ -48,7 +48,7 @@ class Emprestimo {
         return  "Obra emprestada: "+obra +'\''+
                 "Usuario: "+usuario +'\''+
                 "Data do Emprestimo: " + dataEmprestimo +'\''+
-                "Data prevista para devolução: "+ data.getDayOfMonth()+"/"+data.getMonthValue()+"/"+data.getYear();
+                "Data prevista para devolução: "+ data;
     }
 
 
