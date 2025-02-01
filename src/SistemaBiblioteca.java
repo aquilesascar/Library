@@ -5,10 +5,7 @@ public class SistemaBiblioteca {
     public static  void menuInicial(Biblioteca biblioteca) {
         Scanner sc = new Scanner(System.in);
 
-        biblioteca.carregarDadosAcervo();
-        biblioteca.carregarUsuariosAluno();
-        biblioteca.carregarUsuariosProfessor();
-        biblioteca.carregarDadosEmprestimo();
+
         while (true) {
             System.out.println("BIBLIOTECA MUNICIPAL DE OURO BRANCO");
             System.out.println("1. Login");
