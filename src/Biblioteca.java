@@ -12,7 +12,7 @@ public class Biblioteca {
     //Array que guarda empréstimos
     private ArrayList<Emprestimo> emprestimos = new ArrayList();
 
-    //retorna empréstimos
+    //retorna empréstimos.
     public ArrayList<Emprestimo> getEmprestimos() {
         return emprestimos;
     }
