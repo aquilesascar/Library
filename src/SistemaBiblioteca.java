@@ -4,14 +4,6 @@ public class SistemaBiblioteca {
 
     //menu inicial da biblioteca
     public static  void menuInicial(Biblioteca biblioteca) {
-        String acervo= "acervo.csv";
-        String dadosusuario="dadosDoUsuario.txt";
-        String historicoDeEmprestimo="historicoDeEmprestimo.txt";
-        String obras="obras.txt";
-
-        biblioteca.carregarDados(acervo,obras);
-        biblioteca
-
         Scanner sc = new Scanner(System.in);
 
         while (true) {
