@@ -54,7 +54,7 @@ public abstract class MembroBiblioteca extends Usuario {
 
     //método booleano que verifica limite de empréstimo, professor tem 10 e aluno tem 2 livros de limite
     protected boolean verificarLimiteEmprestimo() {
-        return (limiteEmprestimo -livrosEmprestados) > 0;
+        return (limiteEmprestimo - livrosEmprestados) > 0;
     }
 
     //método que incrementa os livros emprestados

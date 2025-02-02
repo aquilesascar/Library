@@ -19,5 +19,4 @@ public class Aluno extends MembroBiblioteca{
     public String getCurso() {
         return curso;
     }
-
 }
