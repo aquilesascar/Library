@@ -8,7 +8,7 @@ class Emprestimo {
     private int diasEmprestado;
     private LocalDate dataDevolucao;
 
-    //construtor.
+    //construtor
     public Emprestimo(String usuario, String obra, LocalDate dataEmprestimo, LocalDate dataDevolucao) {
         this.usuario = usuario;
         this.obra = obra;

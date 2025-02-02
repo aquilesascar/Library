@@ -42,7 +42,7 @@ public class SistemaBiblioteca {
         System.out.println("Digite sua senha: ");
         String senha = scanner.nextLine();
 
-        //busca pelo Arrau de usuários.
+        //busca pelo Arrau de usuários
         for (int i =0; i < biblioteca.getUsuarios().size(); i++) {
 
             Usuario u = biblioteca.getUsuarios().get(i); //pegue o usuário do ArrayList
