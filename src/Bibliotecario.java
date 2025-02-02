@@ -25,7 +25,7 @@ public class Bibliotecario extends Usuario{
             System.out.println("4. Relatório de Livros Emprestados");
             System.out.println("5. Logout");
             System.out.print("Escolha uma opção: ");
-            //leitura da opção
+            //leitura da opção.
             int opcao = sc.nextInt();
 
             switch (opcao) {

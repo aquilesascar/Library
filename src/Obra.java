@@ -26,7 +26,7 @@ public class Obra {
         return quantDisponivel;
     }
 
-    //Método toString para printar objeto
+    //Método toString para printar objeto.
     @Override
     public String toString() {
         return "ID ='" + id + '\'' +

@@ -11,7 +11,7 @@ public class Aluno extends MembroBiblioteca{
         this.curso = curso;
     }
 
-    //Get´s
+    //Get´s.
     public String getMatricula() {
         return matricula;
     }

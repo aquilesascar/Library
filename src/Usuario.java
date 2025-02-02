@@ -11,7 +11,7 @@ abstract class Usuario {
         this.senha = senha;
     }
 
-    //Get´s
+    //Get´s.
     public String getNome() {
         return nome;
     }

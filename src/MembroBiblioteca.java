@@ -57,7 +57,7 @@ public abstract class MembroBiblioteca extends Usuario {
         return (limiteEmprestimo - livrosEmprestados) > 0;
     }
 
-    //método que incrementa os livros emprestados
+    //método que incrementa os livros emprestados.
     public void incrementarLivrosEmprestados() {
             livrosEmprestados++;
     }
