@@ -5,30 +5,40 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Biblioteca {
+    //Array que guarda usuários
     private ArrayList<Usuario> usuarios = new ArrayList();
+    //Array que guarda obras
     private ArrayList<Obra> obras = new ArrayList();
+    //Array que guarda empréstimos
     private ArrayList<Emprestimo> emprestimos = new ArrayList();
 
+    //retorna empréstimos
     public ArrayList<Emprestimo> getEmprestimos() {
         return emprestimos;
     }
-   public Biblioteca( ){
-        this.usuarios.add(new Bibliotecario("Seu José", "seujose2000@gmail.com", "Zezinho", "31996659292",0));
-       carregarDadosAcervo();
-       carregarUsuariosAluno();
-       carregarUsuariosProfessor();
-       carregarDadosEmprestimo();
-   }
 
+    //construtor com os dados do bibliotecário, que no caso, é o Seu José
+    public Biblioteca() {
+        this.usuarios.add(new Bibliotecario("Seu José", "seujose2000@gmail.com", "Zezinho", "31996659292", 0));
+        //os métodos são chamados no construtor da biblioteca para já carregar todos os arquivos ao iniciar
+        carregarDadosAcervo();
+        carregarUsuariosAluno();
+        carregarUsuariosProfessor();
+        carregarDadosEmprestimo();
+    }
+
+    //método para consultar obras do acervo
     public void consultarObras() {
         Scanner sc = new Scanner(System.in);
-        while(true) {
+        while (true) {
+            //opções de busca
             System.out.println("Deseja buscar a obra por:");
             System.out.println("1 - ID");
             System.out.println("2 - Nome");
             System.out.println("3- Sair");
             System.out.print("Escolha uma opção: ");
             int opcao = sc.nextInt();
+            //leitura da opção
             sc.nextLine();
             Obra obra=null;
             switch (opcao) {
@@ -66,6 +76,7 @@ public class Biblioteca {
         }
     }
 
+    //método que percorre array de obras para buscar o título desejado
     private Obra buscaTitulo(String tituloBusca) {
         for (Obra obra : obras) {
             if (obra.getTitulo().equalsIgnoreCase(tituloBusca)) {
@@ -75,6 +86,7 @@ public class Biblioteca {
         return null;
     }
 
+    //método que percorre array de obras para buscar o id da obra desejada
     private Obra buscaId(int idBusca) {
         for (Obra obra : obras) {
             if (obra.getId() == idBusca) {
@@ -84,13 +96,12 @@ public class Biblioteca {
         return null;
     }
 
-
-
     public ArrayList<Obra> getObras() {
         return obras;
     }
 
-    private boolean podeEmprestarLivro(Usuario usuario){
+    //método booleano que percorre array de emprestimos e retorna true caso possa emprestar ou falso se não puder
+    private boolean podeEmprestarLivro(Usuario usuario) {
         for (Emprestimo emprestimo : emprestimos) {
             if(emprestimo.getUsuario().equals(usuario)){
                 if(emprestimo.isAtrasado()){
@@ -101,6 +112,8 @@ public class Biblioteca {
         }
         return true;
     }
+
+    //método busca usuário no array de usuários
     private Usuario buscaUsuario(String nome) {
         for (Usuario usuario : usuarios) {
             if(usuario.getNome().equalsIgnoreCase(nome)){
@@ -110,22 +123,33 @@ public class Biblioteca {
         return null;
     }
 
-    public boolean realizarDevolucao(String nome,String titulo){
+    //método para realizar devolução do livro emprestado
+    public boolean realizarDevolucao(String nome, String titulo) {
+        //busca do título
         Obra obra = buscaTitulo(titulo);
+        //busca usuário
         Usuario usuario = buscaUsuario(nome);
-        if(obra!=null && usuario!=null){
+        //verifica se o usuário e a obra existem
+        if (obra != null && usuario != null) {
+            //percorre o array de emprestimos
             for (Emprestimo emprestimo : emprestimos) {
-                if(emprestimo.getUsuario().equalsIgnoreCase(usuario.getNome())){
-                    if(emprestimo.getObra().equalsIgnoreCase(obra.getTitulo())){
+                //verifica usuário e obra
+                if (emprestimo.getUsuario().equalsIgnoreCase(usuario.getNome())) {
+                    if (emprestimo.getObra().equalsIgnoreCase(obra.getTitulo())) {
+                        //set a data da devolução
                         emprestimo.setDataDevolucao(LocalDate.now());
+                        //incrementa a quantidade do exemplar disponível
                         obra.incrementarQuantidadeDisponivel();
-                        if(usuario instanceof MembroBiblioteca){
+                        //verifica se usuário é uma instância de MembroBiblioteca
+                        if (usuario instanceof MembroBiblioteca) {
+                            //casting pra chamada do método de outra classe
                             ((MembroBiblioteca) usuario).decrementarLivrosEmprestados();
                         }
                         return true;
                     }
                 }
             }
+            //mensagens para alertar usuário
             System.out.println("Usuário ou Obra não constam na lista de livros emprestados");
             return false;
         }else {

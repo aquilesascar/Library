@@ -1,22 +1,22 @@
 import java.util.Scanner;
 
+//MembroBiblioteca herda de Usuario
 public abstract class MembroBiblioteca extends Usuario {
     private int limiteEmprestimo;
     private int livrosEmprestados;
 
-
+    //Construtor
     public MembroBiblioteca(String nome, String email, String senha, int limiteEmprestimo, int livrosEmprestados) {
         super(nome, email, senha);
         this.limiteEmprestimo = limiteEmprestimo;
         this.livrosEmprestados = livrosEmprestados;
     }
 
-
-
     public int getlivrosEmprestados() {
         return livrosEmprestados;
     }
 
+    //Método menu subscrito
     @Override
     protected void menu(Usuario usuario, Biblioteca biblioteca) {
         Scanner sc = new Scanner(System.in);
@@ -52,13 +52,17 @@ public abstract class MembroBiblioteca extends Usuario {
         }
     }
 
+    //método booleano que verifica limite de empréstimo, professor tem 10 e aluno tem 2 livros de limite
     protected boolean verificarLimiteEmprestimo() {
         return (limiteEmprestimo -livrosEmprestados) > 0;
     }
 
+    //método que incrementa os livros emprestados
     public void incrementarLivrosEmprestados() {
             livrosEmprestados++;
     }
+
+    //método que decrementa os livros emprestados
     public void decrementarLivrosEmprestados() {
         livrosEmprestados--;
     }
