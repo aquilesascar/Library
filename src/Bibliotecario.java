@@ -3,13 +3,12 @@ import java.util.Scanner;
 //classe Bibliotecario herda de Usuario
 public class Bibliotecario extends Usuario{
     String telefone;
-    int totalDevolucoes = 0;
 
     //construtor
-    public Bibliotecario(String nome, String email, String senha, String telefone, int totalDevolucoes) {
+    public Bibliotecario(String nome, String email, String senha, String telefone) {
         super(nome, email, senha); //limite de emprestimo não se aplica para o bibliotecario
         this.telefone = telefone;
-        this.totalDevolucoes = totalDevolucoes;
+
     }
 
     //método que é subscrito pois é necessário vários Menus com diferentes funções
@@ -30,7 +29,7 @@ public class Bibliotecario extends Usuario{
 
             switch (opcao) {
                 case 1:
-                    //Chamada de método
+                    //Chamada de método para cadastrar o usuário
                     biblioteca.cadastraUsuario();
                     break;
                 case 2:
@@ -39,17 +38,21 @@ public class Bibliotecario extends Usuario{
                     String tituloLivro = sc.nextLine();
                     System.out.println("Nome do usuário:");
                     String nomeUsuario = sc.nextLine();
-                    //verificação e invocação de método
+                    //verificação se foi possível fazer a devolução do livro
                     if(biblioteca.realizarDevolucao(nomeUsuario,tituloLivro)){
+                        //Mensagem de suceso
                         System.out.println("Devolução realizada com sucesso!");
                     }else{
+                        //Mensagem caso não seja possível fazer a devolução
                         System.out.println("Ocorreu um erro. Não foi possivél fazer a devolução.");
                     };
                     break;
                 case 3:
+                    //Chama método que faz relatórios de livros atrasados
                     biblioteca.relatorioAtrasados();
                     break;
                 case 4:
+                    //Chama método que faz relatórios de livros emprestados
                     biblioteca.relatorioEmprestados();
                     break;
 

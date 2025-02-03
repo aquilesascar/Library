@@ -19,7 +19,7 @@ public class Biblioteca {
 
     //construtor com os dados do bibliotecário, que no caso, é o Seu José
     public Biblioteca() {
-        this.usuarios.add(new Bibliotecario("Seu José", "seujose2000@gmail.com", "Zezinho", "31996659292", 0));
+        this.usuarios.add(new Bibliotecario("Seu José", "seujose2000@gmail.com", "Zezinho", "31996659292"));
         //os métodos são chamados no construtor da biblioteca para já carregar todos os arquivos ao iniciar
         carregarDadosAcervo();
         carregarUsuariosAluno();
@@ -226,7 +226,7 @@ public class Biblioteca {
                 linha = reader.readLine();
             }
             //Exibe a mensagem ao carregar dados
-            System.out.println("Arquivo " + arquivo + " carregado com sucesso!");
+            System.out.println("Arquivo " + arquivo + " carregSado com sucesso!");
             // Trata o erro caso o arquivo não seja encontrado
         } catch (FileNotFoundException erro) {
             System.out.println("Caminho do arquivo incorreto");

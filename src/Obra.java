@@ -2,9 +2,9 @@ import java.time.LocalDate;
 
 public class Obra {
     //variáveis
-    private int id;
-    private String titulo;
-    private int quantDisponivel;
+    private int id; //ID da obra
+    private String titulo; //Tiítulo da Obra
+    private int quantDisponivel; //Quantidade disponível da obra
 
     //construtor
     public Obra(int id, String titulo, int quantDisponivel) {
@@ -13,18 +13,17 @@ public class Obra {
         this.quantDisponivel = quantDisponivel;
     }
 
-    //Get´s
     public int getId() {
         return id;
-    }
+    } //Retorna o ID
 
     public String getTitulo() {
         return titulo;
-    }
+    } //Retorna o título
 
     public int getQuantDisponivel() {
         return quantDisponivel;
-    }
+    } //Retorna aquantidade disponível
 
     //Método toString para printar objeto
     @Override
